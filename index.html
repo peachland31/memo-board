@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>메모 보드</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗒️</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="toolbar">
+  <button id="btn-new" class="primary" title="새 메모 (N)">+ 메모</button>
+  <input id="search" type="search" placeholder="검색 (/)" autocomplete="off">
+  <span id="status" class="status">저장됨</span>
+  <div class="zoom">
+    <button id="zoom-out" title="축소">−</button>
+    <button id="zoom-reset" title="100%로">100%</button>
+    <button id="zoom-in" title="확대">+</button>
+    <button id="zoom-fit" title="전체 보기">⤢</button>
+  </div>
+  <button id="btn-backup">백업</button>
+</header>
+
+<main id="board">
+  <div id="world"></div>
+  <p id="hint" class="hint">빈 곳을 더블클릭하면 메모가 생겨요</p>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+
+<dialog id="backup">
+  <form method="dialog" class="dlg-head">
+    <h2>백업</h2>
+    <button value="close" aria-label="닫기">×</button>
+  </form>
+  <section>
+    <h3>자동 저장</h3>
+    <p class="muted">입력할 때마다 이 브라우저에 바로 저장되고, 3분마다 복원 지점이 만들어져요.</p>
+    <div class="row">
+      <button id="exp">JSON 내보내기</button>
+      <label class="btn">JSON 가져오기<input id="imp" type="file" accept="application/json,.json" hidden></label>
+    </div>
+  </section>
+  <section>
+    <h3>GitHub Gist 동기화</h3>
+    <div id="gist-off">
+      <p class="muted">비공개 Gist에 자동으로 백업해서, 브라우저 데이터가 지워지거나 다른 기기에서 열어도 그대로 불러와요.
+        <a href="https://github.com/settings/tokens/new?scopes=gist&description=memo-board" target="_blank" rel="noopener">gist 권한 토큰 만들기</a> 후 붙여넣으세요.</p>
+      <div class="row">
+        <input id="token" type="password" placeholder="ghp_…" autocomplete="off">
+        <button id="gist-connect" class="primary">연결</button>
+      </div>
+    </div>
+    <div id="gist-on" hidden>
+      <p class="muted" id="gist-info"></p>
+      <div class="row">
+        <button id="gist-sync">지금 동기화</button>
+        <button id="gist-disconnect">연결 해제</button>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h3>복원 지점</h3>
+    <ul id="snaps" class="snaps"></ul>
+  </section>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
